@@ -5,6 +5,10 @@
               android:layout_height="match_parent">
 <TextView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="THIS IS HOME FRAGMENT.. YOU CAN SHOW THINGS HERE"/>
+    android:layout_height="wrap_content"
+    android:text="Huluhive is incredibly especially extremely incredibly  good web design and development company.
+Huluhive technology is an effective and highly professional web service company offering a wide range services to our clients throughout the world. We particularly specialize in interactive design Search Engine Optimization and Online marketing Services as well as offering a wide range of consulting services. We work to provide creative and affordable solutions for medium to large business concerns.
+"
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+    android:padding="15dp"/>
 </LinearLayout>

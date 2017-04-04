@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -34,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class WelcomActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final int LOG_OUT_GOOGLEAPI_CLIENT =33 ;
+    private static final String TAG = WelcomActivity.class.getSimpleName();
     private Profile mProfile;
     private GoogleSignInAccount mSignInAccount;
     private CircleImageView mFbProfilePic;
@@ -42,10 +46,12 @@ public class WelcomActivity extends AppCompatActivity
     private CircleImageView googleImage;
     private GoogleApiClient mGoogleApiClient;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcom);
+        getSupportFragmentManager().beginTransaction().replace(R.id.place_holder,new VIewPagerfragment()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View nav_header = LayoutInflater.from(this).inflate(R.layout.nav_header_welcom, null);
         navigationView.addHeaderView(nav_header);
@@ -60,6 +66,7 @@ public class WelcomActivity extends AppCompatActivity
             mSignInAccount=getIntent().getParcelableExtra(MainActivity.ACCOUNT_GOOGLE);
             nameField.setText(mSignInAccount.getDisplayName());
             emailField.setText(mSignInAccount.getEmail());
+//            Log.e(TAG,mSignInAccount.getPhotoUrl().toString());
             Picasso.with(this).load(mSignInAccount.getPhotoUrl()).fit().placeholder(R.drawable.profile_icon).into(googleImage);
             //googleImage.setImageURI(mSignInAccount.getPhotoUrl());
             mFbProfilePic.setVisibility(View.INVISIBLE);
@@ -97,7 +104,7 @@ public class WelcomActivity extends AppCompatActivity
     @Override
     protected void onStart() {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
+                    .requestProfile()
                     .build();
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -146,7 +153,8 @@ public class WelcomActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.place_holder,new HomeFragment()).commit();
+
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.place_holder,new HomeFragment()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -161,7 +169,7 @@ public class WelcomActivity extends AppCompatActivity
                 bundle.putParcelable(MainActivity.ACCOUNT_GOOGLE, mSignInAccount);
                 profileFragment.setArguments(bundle);
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.place_holder,profileFragment).commit();
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.place_holder,profileFragment).commit();
         } else if (id == R.id.log_out) {
            if(mProfile!=null) {
                LoginManager.getInstance().logOut();
@@ -173,6 +181,7 @@ public class WelcomActivity extends AppCompatActivity
                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                    @Override
                    public void onResult(@NonNull Status status) {
+
                        Intent intent=new Intent(WelcomActivity.this,MainActivity.class);
                        startActivity(intent);
                    }
