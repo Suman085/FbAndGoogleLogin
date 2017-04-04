@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FbAndGoogleLogin</string>
+    <string name="facebook_app_id">266054970509018</string>
+    <string name="navigtion_close">Close</string>
+    <string name="navigation_open">Open</string>
+    <string name="title_activity_welcom">WelcomActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
