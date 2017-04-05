@@ -10,14 +10,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.user.fbandgooglelogin.R;
-import com.example.user.fbandgooglelogin.application.LoginApplication;
 import com.example.user.fbandgooglelogin.di.components.DaggerLoginActivityComponent;
 import com.example.user.fbandgooglelogin.di.modules.LoginActivityModule;
 
 import com.example.user.fbandgooglelogin.mvp.presenter.LoginPresenter;
 import com.example.user.fbandgooglelogin.mvp.view.LoginView;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.Profile;
@@ -29,7 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -39,14 +36,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public static final String ACCOUNT_FACEBOOK = "ACCOUNT_FACEBOOK";
     public static final String ACCOUNT_GOOGLE="ACCOUNT_GOOGLE";
     private LoginButton mLoginButton;
-//    private FacebookCallback<LoginResult> mCallback;
-//    private CallbackManager mCallbackManager;
-//    private ProfileTracker mTracker;
-//    private AccessTokenTracker mTokenTracker;
     private SignInButton mGoogleSignIn;
     private GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mListener;
     private ProgressDialog mProgressDialog;
 
     @Inject
@@ -57,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         resolveDependency();
-        mAuth=FirebaseAuth.getInstance();
         if(AccessToken.getCurrentAccessToken()!=null){
             gotoWelcomeActivity(Profile.getCurrentProfile(),null);
         }
@@ -67,7 +57,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mGoogleSignIn=(SignInButton) findViewById(R.id.google_login);
         mLoginButton.setReadPermissions("email");
         mLoginPresenter.setUpFacebookLogin();
-    //    setUpFacebookLogin();
         setUpGoogleLogin();
 
 
