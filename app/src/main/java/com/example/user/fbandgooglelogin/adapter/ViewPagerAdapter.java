@@ -1,8 +1,15 @@
-package com.example.user.fbandgooglelogin;
+package com.example.user.fbandgooglelogin.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.user.fbandgooglelogin.ui.fragments.AboutUsFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.CareersFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.ContactUsFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.HomeFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.ServicesFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.TeamFragment;
 
 /**
  * Created by User on 4/4/2017.

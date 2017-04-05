@@ -1,4 +1,4 @@
-package com.example.user.fbandgooglelogin;
+package com.example.user.fbandgooglelogin.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.user.fbandgooglelogin.R;
+import com.example.user.fbandgooglelogin.ui.activities.LoginActivity;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
         CircleImageView mProfileView=(CircleImageView)view.findViewById(R.id.profilepic);
 
         if(getArguments()!=null){
-            mSignInAccount=getArguments().getParcelable(MainActivity.ACCOUNT_GOOGLE);
+            mSignInAccount=getArguments().getParcelable(LoginActivity.ACCOUNT_GOOGLE);
             nameField.setText(mSignInAccount.getDisplayName());
             emailField.setText(mSignInAccount.getEmail());
             Picasso.with(getActivity()).load(mSignInAccount.getPhotoUrl()).placeholder(R.drawable.profile_icon).into(mProfileView);

@@ -1,13 +1,10 @@
-package com.example.user.fbandgooglelogin;
+package com.example.user.fbandgooglelogin.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,12 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.user.fbandgooglelogin.mvp.view.WelcomeView;
+import com.example.user.fbandgooglelogin.ui.fragments.HomeFragment;
+import com.example.user.fbandgooglelogin.ui.fragments.ProfileFragment;
+import com.example.user.fbandgooglelogin.R;
+import com.example.user.fbandgooglelogin.ui.fragments.VIewPagerfragment;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
-import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class WelcomActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,WelcomeView{
     public static final int LOG_OUT_GOOGLEAPI_CLIENT =33 ;
     private static final String TAG = WelcomActivity.class.getSimpleName();
     private Profile mProfile;
@@ -63,7 +63,7 @@ public class WelcomActivity extends AppCompatActivity
 
             int flag=getIntent().getFlags();
         if (flag==2){
-            mSignInAccount=getIntent().getParcelableExtra(MainActivity.ACCOUNT_GOOGLE);
+            mSignInAccount=getIntent().getParcelableExtra(LoginActivity.ACCOUNT_GOOGLE);
             nameField.setText(mSignInAccount.getDisplayName());
             emailField.setText(mSignInAccount.getEmail());
 //            Log.e(TAG,mSignInAccount.getPhotoUrl().toString());
@@ -72,7 +72,7 @@ public class WelcomActivity extends AppCompatActivity
             mFbProfilePic.setVisibility(View.INVISIBLE);
 
         }else{
-            mProfile= getIntent().getParcelableExtra(MainActivity.ACCOUNT_FACEBOOK);
+            mProfile= getIntent().getParcelableExtra(LoginActivity.ACCOUNT_FACEBOOK);
             //mFbProfilePic.setImageURI(mProfile.getProfilePictureUri(80,80));
             nameField.setText(mProfile.getFirstName());
             Picasso.with(this).load(mProfile.getProfilePictureUri(80,80)).fit().into(mFbProfilePic);
@@ -166,14 +166,14 @@ public class WelcomActivity extends AppCompatActivity
             ProfileFragment profileFragment=new ProfileFragment();
             if(mSignInAccount!=null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(MainActivity.ACCOUNT_GOOGLE, mSignInAccount);
+                bundle.putParcelable(LoginActivity.ACCOUNT_GOOGLE, mSignInAccount);
                 profileFragment.setArguments(bundle);
             }
             getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.place_holder,profileFragment).commit();
         } else if (id == R.id.log_out) {
            if(mProfile!=null) {
                LoginManager.getInstance().logOut();
-               Intent intent = new Intent(WelcomActivity.this, MainActivity.class);
+               Intent intent = new Intent(WelcomActivity.this, LoginActivity.class);
                startActivity(intent);
                finish();
            }else {
@@ -182,7 +182,7 @@ public class WelcomActivity extends AppCompatActivity
                    @Override
                    public void onResult(@NonNull Status status) {
 
-                       Intent intent=new Intent(WelcomActivity.this,MainActivity.class);
+                       Intent intent=new Intent(WelcomActivity.this,LoginActivity.class);
                        startActivity(intent);
                    }
                });
